@@ -233,6 +233,12 @@ public class DynamicCircularArray<E> {
 		}
 
 		this.front = (this.front - 1) % this.capacity;
+
+		// Correction for negative indexes
+		if (this.front < 0) {
+			this.front += this.capacity;
+		}
+
 		this.data[this.front] = e;
 	}
 
@@ -308,6 +314,11 @@ public class DynamicCircularArray<E> {
 	 * @return The last element of the list.
 	 */
 	public E getLast() {
+		// Correction for negative indexes
+		if ((this.next - 1) % this.capacity < 0) {
+			return this.data[(this.next - 1) % this.capacity + this.capacity];
+		}
+
 		return this.data[(this.next - 1) % this.capacity];
 	}
 
@@ -414,6 +425,12 @@ public class DynamicCircularArray<E> {
 				this.data[current] = this.data[(current - 1) % this.capacity];
 
 				current = (current - 1) % this.capacity;
+
+				// Correction for negative numbers
+				if (current < 0) {
+					current += this.capacity;
+				}
+
 			}
 
 			// Move the front one slot to the right (since the elements were shifted to the right)
@@ -434,6 +451,12 @@ public class DynamicCircularArray<E> {
 
 			// Move the next available slot one slot to the left (since the elements were shifted to the left)
 			this.next = (this.next - 1) % this.capacity;
+
+			// Correction for negative numbers
+			if (this.next < 0) {
+				this.next += this.capacity;
+			}
+
 			this.data[this.next] = null;
 		}
 
@@ -475,6 +498,12 @@ public class DynamicCircularArray<E> {
 		}
 
 		this.next = (this.next - 1) % this.capacity;
+
+		// Correction for negative indexes
+		if (this.next < 0) {
+			this.next += this.capacity;
+		}
+
 		this.data[this.next] = null;
 
 		// If, after removal, the size of the array is less than a quarter of the capacity,
