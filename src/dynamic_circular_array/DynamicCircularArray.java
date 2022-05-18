@@ -53,6 +53,9 @@ public class DynamicCircularArray<E> {
 
 	/**
 	 * Doubles the size of the data array.
+	 *
+	 * <br><br>
+	 *
 	 * Note that no matter where the front and next available slot indexes are located,
 	 * after resizing the front will be 0 and the next available slot will be the
 	 * original capacity - 1.
@@ -60,42 +63,29 @@ public class DynamicCircularArray<E> {
 	 * occupy the first half of the array.)
 	 */
 	@SuppressWarnings("unchecked")
-	private void resize() {
+	private void grow() {
 		E[] newData = (E[]) new Object[this.capacity * 2];
 
-		// Add the elements from the front of the circular array to the element
-		// at the capacity limit (the last element of the primitive array).
-		for (int i = this.front; i < this.capacity; i++) {
-			newData[i] = this.data[i];
-		}
+		/*
+		 * Example:
+		 *
+		 * Let f = this.front and r = this.next
+		 *
+		 * Before resizing:
+		 *
+		 *    r f
+		 * |d| |a|b|c|
+		 *
+		 * After resizing:
+		 *
+		 *  f       r
+		 * |a|b|c|d| | | | | | |
+		 *
+		 * Note that the elements occupy the first half of the larger array.
+		 */
 
-		if (this.next < this.front) {
-			/*
-			 * If there are elements at the beginning of the array before
-			 * the front of the circular array, we add them here.
-			 *
-			 * Example:
-			 *
-			 * Let f = this.front and r = this.next
-			 *
-			 * Before resizing:
-			 *
-			 *    r f
-			 * |d| |a|b|c|
-			 *
-			 * After resizing:
-			 *
-			 *  f       r
-			 * |a|b|c|d| | | | | | |
-			 *
-			 * Note that first we add the elements from the front to the capacity,
-			 * which are a, b, and c, to the resized array, then we add the
-			 * remaining elements that would be at the beginning of the array,
-			 * which is just d in this case.
-			 */
-			for (int i = 0; i < this.next; i++) {
-				newData[i] = this.data[i];
-			}
+		for (int i = this.front, j = 0; i != this.next; i = (i + 1) % this.capacity, j++) {
+			newData[j] = this.data[i];
 		}
 
 		// After the resizing, all the elements will in the first half of the resized array
@@ -103,6 +93,35 @@ public class DynamicCircularArray<E> {
 		this.front = 0;
 		this.next = this.capacity - 1;
 		this.capacity *= 2;
+	}
+
+	/**
+	 * Halves the size of the array.
+	 *
+	 * <br><br>
+	 *
+	 * Note that no matter where the front and next available slot indexes are located,
+	 * after resizing the front will be 0 and the next available slot will be the
+	 * the number of elements in the original array.
+	 */
+	@SuppressWarnings("unchecked")
+	private void shrink() {
+		if (this.size() > this.capacity / 2) {
+			throw new IllegalStateException("Too many elements to shrink array");
+		}
+
+		E[] newData = (E[]) new Object[this.capacity / 2];
+		int newNext = 0;
+
+		for (int i = this.front, j = 0; i != this.next; i = (i + 1) % this.capacity, j++) {
+			newData[j] = this.data[i];
+			newNext++;
+		}
+
+		this.data = newData;
+		this.front = 0;
+		this.next = newNext;
+		this.capacity /= 2;
 	}
 
 	/**
@@ -138,9 +157,10 @@ public class DynamicCircularArray<E> {
 	 * @param e - The element to be added to the list.
 	 */
 	public void add(E e) {
-		// If the next available slot is the front of the array, then the array is full.
+		// If the slot after the next available slot is the front of the array,
+		// then the array is full
 		if ((this.next + 1) % this.capacity == this.front) {
-			this.resize();
+			this.grow();
 		}
 
 		// Add the new element
@@ -156,15 +176,16 @@ public class DynamicCircularArray<E> {
 	 * If this method is called when the array is full, a resizing will be triggered
 	 * (array size will double).
 	 *
-	 * <h5>Amortized running time over <code>n</code> calls to this method: <strong>O(1)</strong></h5>
+	 * <h5>Amortized running time over <code>n</code> calls to this method: <strong>O(n)</strong></h5>
 	 *
 	 * @param e     - The element to be added to the list.
 	 * @param index - The index at which to add the new element.
 	 */
 	public void add(E e, int index) {
-		// If the next available slot is the front of the array, then the array is full.
+		// If the slot after the next available slot is the front of the array,
+		// then the array is full
 		if ((this.next + 1) % this.capacity == this.front) {
-			this.resize();
+			this.grow();
 		}
 
 		if (index == this.size()) {
@@ -205,9 +226,10 @@ public class DynamicCircularArray<E> {
 	 * @param e - The element to be added to the list.
 	 */
 	public void addFirst(E e) {
-		// If the next available slot is the front of the array, then the array is full.
+		// If the slot after the next available slot is the front of the array,
+		// then the array is full
 		if ((this.next + 1) % this.capacity == this.front) {
-			this.resize();
+			this.grow();
 		}
 
 		this.front = (this.front - 1) % this.capacity;
@@ -227,12 +249,23 @@ public class DynamicCircularArray<E> {
 	 * @param e - The element to be added to the list.
 	 */
 	public void addLast(E e) {
-		// If the next available slot is the front of the array, then the array is full.
-		if ((this.next + 1) % this.capacity == this.front) {
-			this.resize();
-		}
-
 		this.add(e);
+	}
+
+	/**
+	 * Update the value of the element at the specified index to the new value.
+	 *
+	 * <h5>Running time: <strong>O(1)</strong></h5>
+	 *
+	 * @param e     - The new value of the element.
+	 * @param index - The index of the element to be updated.
+	 */
+	public void set(E e, int index) {
+		if (index < this.capacity - this.front) {
+			this.data[this.front + index] = e;
+		} else {
+			this.data[index - (this.capacity - this.front)] = e;
+		}
 	}
 
 	/**
@@ -257,6 +290,28 @@ public class DynamicCircularArray<E> {
 	}
 
 	/**
+	 * Get the first element of the list.
+	 *
+	 * <h5>Running time: <strong>O(1)</strong></h5>
+	 *
+	 * @return The first element of the list.
+	 */
+	public E getFirst() {
+		return this.data[this.front];
+	}
+
+	/**
+	 * Get the last element of the list.
+	 *
+	 * <h5>Running time: <strong>O(1)</strong></h5>
+	 *
+	 * @return The last element of the list.
+	 */
+	public E getLast() {
+		return this.data[(this.next - 1) % this.capacity];
+	}
+
+	/**
 	 * Get the size of the list.
 	 *
 	 * <h5>Running time: <strong>O(1)</strong></h5>
@@ -265,12 +320,181 @@ public class DynamicCircularArray<E> {
 	 */
 	public int size() {
 		if (this.next == this.front) {
+			/* Empty list */
 			return 0;
 		} else if (this.next > this.front) {
+			/*
+			 * Example:
+			 *
+			 * Let f = this.front and r = this.next
+			 *
+			 *    f     r
+			 * | |a|b|c| |
+			 *
+			 * f = 1, r = 4
+			 * size = r - f = 4 - 1 = 3
+			 */
 			return this.next - this.front;
 		} else {
+			/*
+			 * Example:
+			 *
+			 * Let f = this.front, r = this.next, and n = this.capacity
+			 *
+			 *    r   f
+			 * |c| | |a|b|
+			 *
+			 * f = 3, r = 1, n = 5
+			 * size = n - f + r = 5 - 3 + 1 = 3
+			 */
 			return this.capacity - this.front + this.next;
 		}
+	}
+
+	/**
+	 * Returns the index of the element with the specified value in the list.
+	 * If there are more than one elements with the specified value, the index
+	 * of the first instance is returned.
+	 * If not found, -1 is returned.
+	 *
+	 * <h5>Running time: <strong>O(n)</strong></h5>
+	 *
+	 * @param e - The value of the element to search for in the list.
+	 *
+	 * @return The index of the (first) element with the specified value in the
+	 *         list (-1 if not found).
+	 */
+	public int indexOf(E e) {
+		int primitiveIndex = this.front;
+		int index = 0;
+
+		while (primitiveIndex != this.next && !this.data[primitiveIndex].equals(e)) {
+			primitiveIndex = (primitiveIndex + 1) % this.capacity;
+			index++;
+		}
+
+		return primitiveIndex != this.next ? index : -1;
+	}
+
+	/**
+	 * Returns whether or not an element with the specified value exists in the list.
+	 *
+	 * <h5>Running time: <strong>O(n)</strong></h5>
+	 *
+	 * @param e - The value of the element to search for in the list.
+	 *
+	 * @return True if an element with the specified value exists in the list,
+	 *         false otherwise.
+	 */
+	public boolean contains(E e) {
+		return this.indexOf(e) > -1;
+	}
+
+	/**
+	 * Removes the element at the specified index.
+	 *
+	 * <h5>Running time: <strong>O(n)</strong></h5>
+	 *
+	 * @param index - The index at which to remove the element.
+	 */
+	public void remove(int index) {
+		// Get the index to be removed in the primitive array
+		int current = this.getPrimitiveIndex(index);
+		this.data[current] = null;
+
+		if (index < this.size() / 2) {
+			/*
+			 * If the index of the element that was removed is less than the list size,
+			 * then shift the elements to the right.
+			 *
+			 * Start at the removal index and move left, shifting each element
+			 * to the right as they are traversed.
+			 */
+			while (current != this.front) {
+				this.data[current] = this.data[(current - 1) % this.capacity];
+
+				current = (current - 1) % this.capacity;
+			}
+
+			// Move the front one slot to the right (since the elements were shifted to the right)
+			this.front = (this.front + 1) % this.capacity;
+		} else {
+			/*
+			 * If the index of the element that was removed is greater than (or equal to)
+			 * the list size, then shift the elements to the left.
+			 *
+			 * Start at the removal index and move right, shifting each element
+			 * to the left as they are traversed.
+			 */
+			while ((current + 1) % this.capacity != this.next) {
+				this.data[current] = this.data[(current + 1) % this.capacity];
+
+				current = (current + 1) % this.capacity;
+			}
+
+			// Move the next available slot one slot to the left (since the elements were shifted to the left)
+			this.next = (this.next - 1) % this.capacity;
+			this.data[this.next] = null;
+		}
+
+		// If, after removal, the size of the array is less than a quarter of the capacity,
+		// while still having at least the minimum size, then shrink the array (half its size).
+		if (this.size() < this.capacity / 4 && this.size() >= this.MINIMUM_SIZE) {
+			this.shrink();
+		}
+	}
+
+	/**
+	 * Removes the first element of the list.
+	 *
+	 * <h5>Amortized running time over <code>n</code> calls to this method: <strong>O(1)</strong></h5>
+	 */
+	public void removeFirst() {
+		if (this.size() == 0) {
+			throw new IllegalStateException("Cannot remove elements from empty array");
+		}
+
+		this.data[this.front] = null;
+		this.front = (this.front + 1) % this.capacity;
+
+		// If, after removal, the size of the array is less than a quarter of the capacity,
+		// while still having at least the minimum size, then shrink the array (half its size).
+		if (this.size() < this.capacity / 4 && this.size() >= this.MINIMUM_SIZE) {
+			this.shrink();
+		}
+	}
+
+	/**
+	 * Removes the last element of the list.
+	 *
+	 * <h5>Amortized running time over <code>n</code> calls to this method: <strong>O(1)</strong></h5>
+	 */
+	public void removeLast() {
+		if (this.size() == 0) {
+			throw new IllegalStateException("Cannot remove elements from empty array");
+		}
+
+		this.next = (this.next - 1) % this.capacity;
+		this.data[this.next] = null;
+
+		// If, after removal, the size of the array is less than a quarter of the capacity,
+		// while still having at least the minimum size, then shrink the array (half its size).
+		if (this.size() < this.capacity / 4 && this.size() >= this.MINIMUM_SIZE) {
+			this.shrink();
+		}
+	}
+
+	/**
+	 * Removes all elements from the list.
+	 *
+	 * <h5>Running time: O(1)</h5>
+	 */
+	@SuppressWarnings("unchecked")
+	public void clear() {
+		this.capacity = this.MINIMUM_SIZE;
+		this.data = (E[]) new Object[this.capacity];
+		this.front = 0;
+		this.next = 0;
 	}
 
 }
