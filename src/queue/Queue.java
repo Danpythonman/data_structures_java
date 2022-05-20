@@ -35,8 +35,8 @@ public interface Queue<E> {
 	 *
 	 * <h5>Running time:</h5>
 	 * <ul>
-	 *   <li>LinkedStack: <strong>O(1)</strong></li>
-	 *   <li>ArrayStack: <strong>O(1)</strong> (amortized)</li>
+	 *   <li>LinkedQueue: <strong>O(1)</strong></li>
+	 *   <li>ArrayQueue: <strong>O(1)</strong> (amortized)</li>
 	 * </ul>
 	 *
 	 * @param e - The item to be enqueued.
@@ -48,8 +48,8 @@ public interface Queue<E> {
 	 *
 	 * <h5>Running time:</h5>
 	 * <ul>
-	 *   <li>LinkedStack: <strong>O(1)</strong></li>
-	 *   <li>ArrayStack: <strong>O(1)</strong> (amortized)</li>
+	 *   <li>LinkedQueue: <strong>O(1)</strong></li>
+	 *   <li>ArrayQueue: <strong>O(1)</strong> (amortized)</li>
 	 * </ul>
 	 *
 	 * @return The first item in the queue (which will be removed from the queue).
