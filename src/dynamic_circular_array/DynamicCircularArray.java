@@ -1,5 +1,16 @@
 package dynamic_circular_array;
 
+/**
+ * A sequence of indexed elements (array) where the size of the sequence grows
+ * and shrinks (dynamic) according to the number of elements in the sequence,
+ * and the indexes of the first and last elements of the array are variable
+ * (circular), so the first element is not necessarily at index 0, and the last
+ * element is not necessarily at index array size - 1.
+ *
+ * @author Daniel
+ *
+ * @param <E>
+ */
 public class DynamicCircularArray<E> {
 
 	/**
@@ -17,6 +28,9 @@ public class DynamicCircularArray<E> {
 	 */
 	private int next;
 
+	/**
+	 * The size of the array that holds the elements of the circular array (this.data).
+	 */
 	private int capacity;
 
 	private final int MINIMUM_SIZE = 10;
@@ -42,7 +56,11 @@ public class DynamicCircularArray<E> {
 	@SuppressWarnings("unchecked")
 	public DynamicCircularArray(int size) {
 		if (size < 1) {
-			throw new IllegalArgumentException("Initial array size must be at least 1");
+			String message = "Invalid initial size for dynamic circular array: "
+				+ "Initial array size must be at least 1.\n"
+				+ "Specified size: " + size;
+
+			throw new InvalidInitialDynamicCircularArraySizeException(message);
 		}
 
 		this.capacity = size;
@@ -107,7 +125,12 @@ public class DynamicCircularArray<E> {
 	@SuppressWarnings("unchecked")
 	private void shrink() {
 		if (this.size() > this.capacity / 2) {
-			throw new IllegalStateException("Too many elements to shrink array");
+			String message = "Too many elements to shrink array: "
+				+ "Array size must be less than or equal to the capacity / 2"
+				+ "(" + (this.capacity / 2) + ").\n"
+				+ "Current size: " + this.size();
+
+			throw new TooManyElementsToShrinkException(message);
 		}
 
 		E[] newData = (E[]) new Object[this.capacity / 2];
@@ -134,7 +157,13 @@ public class DynamicCircularArray<E> {
 	 */
 	private int getPrimitiveIndex(int index) {
 		if (index < 0 || index >= this.size()) {
-			throw new IllegalArgumentException("Invalid index - Index must be between 0 and the list size (inclusive).");
+			String message = "Invalid index: "
+				+ "index must be between 0 and the list size ("
+				+ this.size() + "),"
+				+ " where it can be equal to 0 but not the list size.\n"
+				+ " Provided index: " + index;
+
+			throw new InvalidDynamicCircularArrayIndexException(message);
 		}
 
 		if (index < this.capacity - this.front) {
@@ -285,7 +314,13 @@ public class DynamicCircularArray<E> {
 	 */
 	public E get(int index) {
 		if (index < 0 || index >= this.size()) {
-			throw new IllegalArgumentException("Invalid index - Index must be between 0 and the list size (inclusive).");
+			String message = "Invalid index: "
+				+ "index must be between 0 and the list size ("
+				+ this.size() + "),"
+				+ " where it can be equal to 0 but not the list size.\n"
+				+ " Provided index: " + index;
+
+			throw new InvalidDynamicCircularArrayIndexException(message);
 		}
 
 		if (index < this.capacity - this.front) {
@@ -409,6 +444,13 @@ public class DynamicCircularArray<E> {
 	 * @param index - The index at which to remove the element.
 	 */
 	public void remove(int index) {
+		if (this.size() == 0) {
+			String message = "Dynamic circular array is empty: "
+				+ "cannot remove an element from an empty array.";
+
+			throw new EmptyDynamicCircularArrayException(message);
+		}
+
 		// Get the index to be removed in the primitive array
 		int current = this.getPrimitiveIndex(index);
 		this.data[current] = null;
@@ -474,7 +516,10 @@ public class DynamicCircularArray<E> {
 	 */
 	public void removeFirst() {
 		if (this.size() == 0) {
-			throw new IllegalStateException("Cannot remove elements from empty array");
+			String message = "Dynamic circular array is empty: "
+				+ "cannot remove an element from an empty array.";
+
+			throw new EmptyDynamicCircularArrayException(message);
 		}
 
 		this.data[this.front] = null;
@@ -494,7 +539,12 @@ public class DynamicCircularArray<E> {
 	 */
 	public void removeLast() {
 		if (this.size() == 0) {
-			throw new IllegalStateException("Cannot remove elements from empty array");
+			if (this.size() == 0) {
+				String message = "Dynamic circular array is empty: "
+					+ "cannot remove an element from an empty array.";
+
+				throw new EmptyDynamicCircularArrayException(message);
+			}
 		}
 
 		this.next = (this.next - 1) % this.capacity;
