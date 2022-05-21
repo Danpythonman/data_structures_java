@@ -4,85 +4,90 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
-import stack.LinkedStack;
-import stack.Stack;
+import queue.Queue;
+import queue.LinkedQueue;
 
 class LinkedQueueTest {
 
 	@Test
 	void testConstruction() {
-		Stack<Integer> emptyStack = new LinkedStack<Integer>();
+		Queue<Integer> emptyQueue = new LinkedQueue<Integer>();
 
-		assertTrue(emptyStack.isEmpty());
-		assertEquals(0, emptyStack.size());
+		assertTrue(emptyQueue.isEmpty());
+		assertEquals(0, emptyQueue.size());
 
-		Stack<Integer> oneItemStack = new LinkedStack<Integer>(1);
+		Queue<Integer> oneItemQueue = new LinkedQueue<Integer>(1);
 
-		assertFalse(oneItemStack.isEmpty());
-		assertEquals(1, oneItemStack.size());
-		assertEquals(1, oneItemStack.top());
-		assertEquals(1, oneItemStack.pop());
+		assertFalse(oneItemQueue.isEmpty());
+		assertEquals(1, oneItemQueue.size());
+		assertEquals(1, oneItemQueue.first());
+		assertEquals(1, oneItemQueue.dequeue());
 	}
 
 	@Test
-	void testStackPushTopPop() {
-		Stack<String> stack = new LinkedStack<String>("1");
+	void testQueueEnqueueFirstDequeue() {
+		Queue<String> queue = new LinkedQueue<String>("1");
 
-		assertFalse(stack.isEmpty());
-		assertEquals(1, stack.size());
-		assertEquals("1", stack.top());
+		assertFalse(queue.isEmpty());
+		assertEquals(1, queue.size());
+		assertEquals("1", queue.first());
 
-		stack.push("2");
+		queue.enqueue("2");
 
-		assertFalse(stack.isEmpty());
-		assertEquals(2, stack.size());
-		assertEquals("2", stack.top());
+		assertFalse(queue.isEmpty());
+		assertEquals(2, queue.size());
+		assertEquals("1", queue.first());
 
-		stack.push("3");
+		queue.enqueue("3");
 
-		assertFalse(stack.isEmpty());
-		assertEquals(3, stack.size());
-		assertEquals("3", stack.top());
+		assertFalse(queue.isEmpty());
+		assertEquals(3, queue.size());
+		assertEquals("1", queue.first());
 
-		assertEquals("3", stack.pop());
+		assertEquals("1", queue.dequeue());
 
-		assertFalse(stack.isEmpty());
-		assertEquals(2, stack.size());
-		assertEquals("2", stack.top());
+		assertEquals(2, queue.size());
+		assertEquals("2", queue.first());
 
-		assertEquals("2", stack.pop());
+		assertEquals("2", queue.dequeue());
 
-		assertFalse(stack.isEmpty());
-		assertEquals(1, stack.size());
-		assertEquals("1", stack.top());
+		assertEquals(1, queue.size());
+		assertEquals("3", queue.first());
 
-		assertEquals("1", stack.pop());
+		assertEquals("3", queue.dequeue());
 
-		assertTrue(stack.isEmpty());
-		assertEquals(0, stack.size());
+		assertTrue(queue.isEmpty());
+		assertEquals(0, queue.size());
 
-		stack.push("a");
+		queue.enqueue("a");
 
-		assertFalse(stack.isEmpty());
-		assertEquals(1, stack.size());
-		assertEquals("a", stack.top());
+		assertEquals(1, queue.size());
+		assertEquals("a", queue.first());
 
-		stack.push("b");
+		queue.enqueue("b");
 
-		assertFalse(stack.isEmpty());
-		assertEquals(2, stack.size());
-		assertEquals("b", stack.top());
+		assertEquals(2, queue.size());
+		assertEquals("a", queue.first());
 
-		assertEquals("b", stack.pop());
+		queue.enqueue("c");
 
-		assertFalse(stack.isEmpty());
-		assertEquals(1, stack.size());
-		assertEquals("a", stack.top());
+		assertEquals(3, queue.size());
+		assertEquals("a", queue.first());
 
-		assertEquals("a", stack.pop());
+		assertEquals("a", queue.dequeue());
 
-		assertTrue(stack.isEmpty());
-		assertEquals(0, stack.size());
+		assertEquals(2, queue.size());
+		assertEquals("b", queue.first());
+
+		assertEquals("b", queue.dequeue());
+
+		assertEquals(1, queue.size());
+		assertEquals("c", queue.first());
+
+		assertEquals("c", queue.dequeue());
+
+		assertTrue(queue.isEmpty());
+		assertEquals(0, queue.size());
 	}
 
 }
