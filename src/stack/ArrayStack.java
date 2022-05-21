@@ -2,6 +2,14 @@ package stack;
 
 import dynamic_circular_array.DynamicCircularArray;
 
+/**
+ * Implements the stack data structure where the collection of objects in the
+ * stack is a dynamic circular array.
+ *
+ * @author Daniel
+ *
+ * @param <E>
+ */
 public class ArrayStack<E> implements Stack<E> {
 
 	/**
@@ -37,7 +45,8 @@ public class ArrayStack<E> implements Stack<E> {
 
 	public E top() {
 		if (this.data.size() == 0) {
-			throw new IllegalStateException("Stack is empty");
+			throw new EmptyStackException("Stack is empty: "
+				+ "top of stack cannot be accessed when empty");
 		}
 
 		return this.data.get(0);
@@ -49,7 +58,8 @@ public class ArrayStack<E> implements Stack<E> {
 
 	public E pop() {
 		if (this.data.size() == 0) {
-			throw new IllegalStateException("Stack is empty");
+			throw new EmptyStackException("Stack is empty: "
+				+ "stack cannot be popped when empty");
 		}
 
 		E top = this.data.get(0);

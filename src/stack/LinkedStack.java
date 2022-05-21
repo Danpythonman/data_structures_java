@@ -2,9 +2,33 @@ package stack;
 
 import linked_list.SinglyLinkedNode;
 
+/**
+ * Implements the stack data structure where the collection of objects in the
+ * stack is a singly-linked list.
+ *
+ * <br><br>
+ *
+ * The head of the singly-linked list is used as the top of the stack. Since
+ * only the head of the list will be accessed, updated, or removed, a full
+ * singly-linked list object is not used. Instead, just the head and size of the
+ * list is defined, and all list operations are done to the head attribute.
+ *
+ * @author Daniel
+ *
+ * @param <E>
+ */
 public class LinkedStack<E> implements Stack<E> {
 
+	/**
+	 * The top of the stack. Also represents the head of the singly-linked list
+	 * that holds the collection of objects in the stack.
+	 */
 	private SinglyLinkedNode<E> head;
+
+	/*
+	 * The size of the stack. Also is the size of the singly-linked list that
+	 * holds the collection of objects in the stack.
+	 */
 	private int size;
 
 	/**
@@ -33,7 +57,8 @@ public class LinkedStack<E> implements Stack<E> {
 
 	public E top() {
 		if (this.size == 0) {
-			throw new IllegalStateException("Stack is empty");
+			throw new EmptyStackException("Stack is empty: "
+				+ "top of stack cannot be accessed when empty");
 		}
 
 		return this.head.getData();
@@ -47,7 +72,8 @@ public class LinkedStack<E> implements Stack<E> {
 
 	public E pop() {
 		if (this.size == 0) {
-			throw new IllegalStateException("Stack is empty");
+			throw new EmptyStackException("Stack is empty: "
+				+ "top of stack cannot be accessed when empty");
 		}
 
 		SinglyLinkedNode<E> top = this.head;

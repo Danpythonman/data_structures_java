@@ -1,5 +1,20 @@
 package stack;
 
+/**
+ * A collection of objects that are inserted and removed according to the
+ * last-in first-out (LIFO) principle (or, equivalently, the first-in last-out
+ * (FILO) principle).
+ *
+ * <br><br>
+ *
+ * Items are added only to the "top" of the stack, and the only item that can
+ * be accessed or removed at any time is the top of the stack (the most recently
+ * added item).
+ *
+ * @author Daniel
+ *
+ * @param <E>
+ */
 public interface Stack<E> {
 
 	/**
