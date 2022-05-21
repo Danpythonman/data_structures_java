@@ -1,17 +1,67 @@
 package linked_list;
 
+/**
+ * A linear sequence of connected nodes, where each node has a reference to the data stored in the node,
+ * as well as a reference to the previous node in the sequence and a reference to the next node in the sequence.
+ *
+ * @author Daniel
+ *
+ * @param <E>
+ */
 public class DoublyLinkedList<E> implements LinkedList<E> {
 
+	/**
+	 * The header is always the first node of the structure,
+	 * defined for simplifying the implementation of certain list operations.
+	 * <br><br>
+	 * The next reference of the header points to the first item of the list.
+	 * If the next reference of the header points to the trailer, then the list is empty.
+	 */
 	private DoublyLinkedNode<E> header;
+
+	/**
+	 * The trailer is always the last node of the structure,
+	 * defined for simplifying the implementation of certain list operations.
+	 * <br><br>
+	 * The previous reference of the trailer points to the last item of the list.
+	 * If the previous reference of the trailer points to the header, then the list is empty.
+	 */
 	private DoublyLinkedNode<E> trailer;
+
+	/**
+	 * The number of elements in the doubly-linked list.
+	 */
 	private int size;
 
+	/**
+	 * Initialize an empty doubly-linked list.
+	 */
 	public DoublyLinkedList() {
 		this.header = new DoublyLinkedNode<E>(null, null, null);
 		this.trailer = new DoublyLinkedNode<E>(null, null, null);
 		this.header.setNext(this.trailer);
 		this.trailer.setPrev(this.header);
 		this.size = 0;
+	}
+
+	private DoublyLinkedNode<E> getNode(int index) {
+		if (index < -1 || index > this.size) {
+			throw new IllegalArgumentException("Invalid index - Index must be between -1 and the list size (inclusive).");
+		} else if (index == -1) {
+			// Header at index -1
+			return this.header;
+		} else if (index == this.size) {
+			// Trailer at index this.size
+			return this.trailer;
+		} else {
+			DoublyLinkedNode<E> current = this.header.getNext();
+	
+			for (int i = 0; i < index; i++) {
+				current = current.getNext();
+			}
+	
+			return current;
+		}
 	}
 
 	public void add(E e) {
@@ -72,26 +122,6 @@ public class DoublyLinkedList<E> implements LinkedList<E> {
 
 	public E getLast() {
 		return this.size > 0 ? this.trailer.getPrev().getData() : null;
-	}
-
-	private DoublyLinkedNode<E> getNode(int index) {
-		if (index < -1 || index > this.size) {
-			throw new IllegalArgumentException("Invalid index - Index must be between -1 and the list size (inclusive).");
-		} else if (index == -1) {
-			// Header at index -1
-			return this.header;
-		} else if (index == this.size) {
-			// Trailer at index this.size
-			return this.trailer;
-		} else {
-			DoublyLinkedNode<E> current = this.header.getNext();
-	
-			for (int i = 0; i < index; i++) {
-				current = current.getNext();
-			}
-	
-			return current;
-		}
 	}
 
 	public int size() {
