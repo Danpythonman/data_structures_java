@@ -2,7 +2,7 @@ package dynamic_circular_array;
 
 /**
  * Signals that a dynamic circular array method with a precondition that the
- * array cannot be empty has been invoked when the list is empty.
+ * array cannot be empty has been invoked when the array is empty.
  *
  * @author Daniel
  */
