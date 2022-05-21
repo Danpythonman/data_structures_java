@@ -1,20 +1,47 @@
 package linked_list;
 
+/**
+ * A linear sequence of connected nodes, where each node has a reference to the data stored in the node,
+ * as well as a reference to the next node in the sequence.
+ *
+ * @author Daniel
+ *
+ * @param <E>
+ */
 public class SinglyLinkedList<E> implements LinkedList<E> {
 
+	/**
+	 * The first node in the singly-linked list.
+	 */
 	private SinglyLinkedNode<E> head;
+
+	/**
+	 * The last node in the singly-linked list.
+	 */
 	private SinglyLinkedNode<E> tail;
+
+	/**
+	 * The size of the singly-linked list.
+	 */
 	private int size;
 
+	/**
+	 * Initialize an empty singly-linked list.
+	 */
 	public SinglyLinkedList() {
 		this.head = null;
 		this.tail = null;
 		this.size = 0;
 	}
 
-	public SinglyLinkedList(SinglyLinkedNode<E> head) {
-		this.head = head;
-		this.tail = head;
+	/**
+	 * Initialize a singly-linked list with one element.
+	 *
+	 * @param node - The initial node to be stored in the singly-linked list.
+	 */
+	public SinglyLinkedList(SinglyLinkedNode<E> node) {
+		this.head = node;
+		this.tail = node;
 		this.size = 0;
 	}
 
