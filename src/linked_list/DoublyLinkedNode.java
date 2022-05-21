@@ -39,6 +39,41 @@ public class DoublyLinkedNode<E> {
 	}
 
 	/**
+	 * Instantiates a doubly-linked node with its next reference null.
+	 *
+	 * @param prev - The previous node in the list.
+	 * @param data - The data to be stored by the node.
+	 */
+	public DoublyLinkedNode(DoublyLinkedNode<E> prev, E data) {
+		this.data = data;
+		this.prev = prev;
+		this.next = null;
+	}
+
+	/**
+	 * Instantiates a doubly-linked node with its previous reference null.
+	 *
+	 * @param data - The data to be stored by the node.
+	 * @param next - The next node in the list.
+	 */
+	public DoublyLinkedNode(E data, DoublyLinkedNode<E> next) {
+		this.data = data;
+		this.prev = null;
+		this.next = next;
+	}
+
+	/**
+	 * Instantiates a doubly-linked node with its previous and next references null.
+	 *
+	 * @param data - The data to be stored by the node.
+	 */
+	public DoublyLinkedNode(E data) {
+		this.data = data;
+		this.prev = null;
+		this.next = null;
+	}
+
+	/**
 	 * Gets the data stored in the doubly-linked node.
 	 *
 	 * @return The data stored in the node.
@@ -86,7 +121,7 @@ public class DoublyLinkedNode<E> {
 	/**
 	 * Sets the next reference of the doubly-linked node.
 	 *
-	 * @param prev - The node to be set as the next node to this node.
+	 * @param next - The node to be set as the next node to this node.
 	 */
 	public void setNext(DoublyLinkedNode<E> next) {
 		this.next = next;
