@@ -1,5 +1,13 @@
 package linked_list;
 
+/**
+ * A linear sequence of connected nodes.
+ * The nodes are connected by referencing other nodes in the sequence.
+ *
+ * @author Daniel
+ *
+ * @param <E>
+ */
 public interface LinkedList<E> {
 
 	/**
