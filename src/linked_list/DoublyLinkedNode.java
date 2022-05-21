@@ -1,37 +1,93 @@
 package linked_list;
 
+/**
+ * A node in a doubly-linked list. Contains a reference to the data it stores,
+ * as well as references to the next and previous nodes in the list.
+ *
+ * @author Daniel
+ *
+ * @param <E>
+ */
 public class DoublyLinkedNode<E> {
 
-		private E data;
-		private DoublyLinkedNode<E> prev;
-		private DoublyLinkedNode<E> next;
+	/**
+	 * The data being stored by the node.
+	 */
+	private E data;
 
+	/**
+	 * The reference to the previous doubly-linked node in the list.
+	 */
+	private DoublyLinkedNode<E> prev;
+
+	/**
+	 * The reference to the next doubly-linked node in the list.
+	 */
+	private DoublyLinkedNode<E> next;
+
+	/**
+	 * Instantiates a doubly-linked node.
+	 *
+	 * @param data - The data to be stored by the node.
+	 * @param prev - The previous node in the list.
+	 * @param next - The next node in the list.
+	 */
 	public DoublyLinkedNode(E data, DoublyLinkedNode<E> prev, DoublyLinkedNode<E> next) {
 		this.data = data;
 		this.prev = prev;
 		this.next = next;
 	}
 
+	/**
+	 * Gets the data stored in the doubly-linked node.
+	 *
+	 * @return The data stored in the node.
+	 */
 	public E getData() {
 		return this.data;
 	}
 
+	/**
+	 * Sets the data stored in the doubly-linked node.
+	 *
+	 * @param data - The data to be stored in the node.
+	 */
 	public void setData(E data) {
 		this.data = data;
 	}
 
+	/**
+	 * Gets the previous reference of the doubly-linked node.
+	 *
+	 * @return - The node previous to this node.
+	 */
 	public DoublyLinkedNode<E> getPrev() {
 		return this.prev;
 	}
 
+	/**
+	 * Sets the previous reference of the doubly-linked node.
+	 *
+	 * @param prev - The node to be set as the previous node to this node.
+	 */
 	public void setPrev(DoublyLinkedNode<E> prev) {
 		this.prev = prev;
 	}
 
+	/**
+	 * Gets the next reference of the doubly-linked node.
+	 *
+	 * @return - The node next to (after) this node.
+	 */
 	public DoublyLinkedNode<E> getNext() {
 		return this.next;
 	}
 
+	/**
+	 * Sets the next reference of the doubly-linked node.
+	 *
+	 * @param prev - The node to be set as the next node to this node.
+	 */
 	public void setNext(DoublyLinkedNode<E> next) {
 		this.next = next;
 	}
