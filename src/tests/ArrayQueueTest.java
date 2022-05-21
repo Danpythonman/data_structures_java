@@ -25,7 +25,7 @@ class ArrayQueueTest {
 	}
 
 	@Test
-	void testStackPushTopPop() {
+	void testQueueEnqueueFirstDequeue() {
 		Queue<String> queue = new ArrayQueue<String>("1");
 
 		assertFalse(queue.isEmpty());
