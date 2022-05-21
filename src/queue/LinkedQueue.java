@@ -54,6 +54,8 @@ public class LinkedQueue<E> implements Queue<E> {
 
 			this.tail = this.tail.getNext();
 		}
+
+		this.size++;
 	}
 
 	public E dequeue() {
