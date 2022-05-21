@@ -53,7 +53,12 @@ public class DoublyLinkedList<E> implements LinkedList<E> {
 	 */
 	private DoublyLinkedNode<E> getNode(int index) {
 		if (index < -1 || index > this.size) {
-			throw new IllegalArgumentException("Invalid index - Index must be between -1 and the list size (inclusive).");
+			String message = "Invalid index: "
+				+ "index must be between -1 and the list size (" + this.size + "),"
+				+ " where it can be equal to both -1 or the list size.\n"
+				+ " Provided index: " + index;
+
+			throw new InvalidDoublyLinkedListIndexException(message);
 		} else if (index == -1) {
 			// Header at index -1
 			return this.header;
@@ -82,7 +87,12 @@ public class DoublyLinkedList<E> implements LinkedList<E> {
 
 	public void add(E e, int index) {
 		if (index < 0 || index > this.size) {
-			throw new IllegalArgumentException("Invalid index - Index must be between 0 and the list size (inclusive).");
+			String message = "Invalid index: "
+				+ "index must be between 0 and the list size (" + this.size + "),"
+				+ " where it can be equal to both 0 or the list size.\n"
+				+ " Provided index: " + index;
+
+			throw new InvalidDoublyLinkedListIndexException(message);
 		}
 
 		DoublyLinkedNode<E> previousNode = this.getNode(index - 1);
@@ -117,7 +127,12 @@ public class DoublyLinkedList<E> implements LinkedList<E> {
 		if (this.size == 0 && index == 0) {
 			return null;
 		} else if (index < 0 || index > this.size - 1) {
-			throw new IllegalArgumentException("Invalid index - Index must be between 0 and the list size - 1 (inclusive).");
+			String message = "Invalid index: "
+				+ "index must be between 0 and the list size - 1 (" + (this.size - 1) + "),"
+				+ " where it can be equal to both 0 or the list size - 1.\n"
+				+ " Provided index: " + index;
+
+			throw new InvalidDoublyLinkedListIndexException(message);
 		}
 
 		return this.getNode(index).getData();
@@ -162,9 +177,17 @@ public class DoublyLinkedList<E> implements LinkedList<E> {
 
 	public void remove(int index) {
 		if (this.size == 0) {
-			throw new IllegalStateException("List empty, cannot remove from empty list");
+			String message = "Doubly-linked list is empty: "
+				+ "cannot remove an element from an empty list.";
+
+			throw new EmptyDoublyLinkedListException(message);
 		} else if (index < 0 || index > this.size - 1) {
-			throw new IllegalArgumentException("Invalid index - Index must be between 0 and the list size - 1 (inclusive).");
+			String message = "Invalid index: "
+				+ "index must be between 0 and the list size - 1 (" + (this.size - 1) + "),"
+				+ " where it can be equal to both 0 or the list size - 1.\n"
+				+ " Provided index: " + index;
+
+			throw new InvalidDoublyLinkedListIndexException(message);
 		}
 
 		DoublyLinkedNode<E> removal = this.getNode(index);
