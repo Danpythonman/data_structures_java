@@ -45,6 +45,27 @@ public class SinglyLinkedList<E> implements LinkedList<E> {
 		this.size = 0;
 	}
 
+	/**
+	 * Get the singly-linked node at the specified index in the list.
+	 *
+	 * @param index - The index at which to get the singly-linked node.
+	 *
+	 * @return The singly-linked node at the specified index in the list.
+	 */
+	private SinglyLinkedNode<E> getNode(int index) {
+		if (index < 0 || index >= this.size) {
+			throw new IllegalArgumentException("Invalid index - Index must be between 0 and the list size (inclusive).");
+		}
+
+		SinglyLinkedNode<E> current = this.head;
+
+		for (int i = 0; i < index; i++) {
+			current = current.getNext();
+		}
+
+		return current;
+	}
+
 	public void add(E e) {
 		if (this.size == 0) {
 			this.addFirst(e);
@@ -104,20 +125,6 @@ public class SinglyLinkedList<E> implements LinkedList<E> {
 
 	public E getLast() {
 		return this.tail.getData();
-	}
-
-	private SinglyLinkedNode<E> getNode(int index) {
-		if (index < 0 || index >= this.size) {
-			throw new IllegalArgumentException("Invalid index - Index must be between 0 and the list size (inclusive).");
-		}
-
-		SinglyLinkedNode<E> current = this.head;
-
-		for (int i = 0; i < index; i++) {
-			current = current.getNext();
-		}
-
-		return current;
 	}
 
 	public int size() {

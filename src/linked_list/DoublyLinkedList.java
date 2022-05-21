@@ -44,6 +44,13 @@ public class DoublyLinkedList<E> implements LinkedList<E> {
 		this.size = 0;
 	}
 
+	/**
+	 * Get the doubly-linked node at the specified index in the list.
+	 *
+	 * @param index - The index at which to get the doubly-linked node.
+	 *
+	 * @return - The doubly-linked node at the specified index in the list.
+	 */
 	private DoublyLinkedNode<E> getNode(int index) {
 		if (index < -1 || index > this.size) {
 			throw new IllegalArgumentException("Invalid index - Index must be between -1 and the list size (inclusive).");
