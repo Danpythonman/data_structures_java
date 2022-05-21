@@ -56,8 +56,8 @@ public class SinglyLinkedList<E> implements LinkedList<E> {
 		if (index < 0 || index >= this.size) {
 			String message = "Invalid index: "
 				+ "index must be between 0 and the list size (" + this.size + "),"
-				+ " where it can be equal to 0 but not the list size."
-				+ " Provided index " + index;
+				+ " where it can be equal to 0 but not the list size.\n"
+				+ " Provided index: " + index;
 
 			throw new InvalidSinglyLinkedListIndexException(message);
 		}
@@ -190,7 +190,7 @@ public class SinglyLinkedList<E> implements LinkedList<E> {
 	public void removeFirst() {
 		if (this.size == 0) {
 			String message = "Singly-linked list is empty: "
-					+ "cannot remove an element from an empty list.";
+				+ "cannot remove an element from an empty list.";
 
 			throw new EmptySinglyLinkedListException(message);
 		} else if (this.size == 1) {
@@ -210,7 +210,7 @@ public class SinglyLinkedList<E> implements LinkedList<E> {
 	public void removeLast() {
 		if (this.size == 0) {
 			String message = "Singly-linked list is empty: "
-					+ "cannot remove an element from an empty list.";
+				+ "cannot remove an element from an empty list.";
 
 			throw new EmptySinglyLinkedListException(message);
 		} else if (this.size == 1) {
