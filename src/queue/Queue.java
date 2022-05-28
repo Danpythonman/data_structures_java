@@ -1,5 +1,20 @@
 package queue;
 
+/**
+ * A collection of objects that are inserted and removed according to the
+ * first-in first-out (FIFO) principle (or, equivalently, the last-in last-out
+ * (LILO) principle).
+ *
+ * <br><br>
+ *
+ * Items are added only to the "back" of the queue, and the only item that can
+ * be accessed or removed at any time is the "front" of the queue (the item that
+ * has been in the queue the longest).
+ *
+ * @author Daniel
+ *
+ * @param <E>
+ */
 public interface Queue<E> {
 
 	/**
