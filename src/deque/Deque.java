@@ -1,5 +1,18 @@
 package deque;
 
+/**
+ * A double-ended-queue (deque) data structure.
+ *
+ * <br><br>
+ *
+ * A queue-like data structure that allows accessing, insertion, and deletion,
+ * from both ends of the queue. Items in the deque can be accessed from,
+ * inserted to, or deleted from both the front and back of the structure.
+ *
+ * @author Daniel
+ *
+ * @param <E>
+ */
 public interface Deque<E> {
 
 	/**

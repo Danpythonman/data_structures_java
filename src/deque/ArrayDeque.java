@@ -2,8 +2,23 @@ package deque;
 
 import dynamic_circular_array.DynamicCircularArray;
 
+/**
+ * Implements the deque data structure where the collection of objects in the
+ * deque is a dynamic circular array.
+ *
+ * @author Daniel
+ *
+ * @param <E>
+ */
 public class ArrayDeque<E> implements Deque<E> {
 
+	/**
+	 * The contents of the deque.
+	 *
+	 * The first element (at index 0) is treated as the front of the deque, and
+	 * the last element (at index this.data.size - 1) is treated as the back of
+	 * the deque.
+	 */
 	private DynamicCircularArray<E> data;
 
 	/**
@@ -15,6 +30,8 @@ public class ArrayDeque<E> implements Deque<E> {
 
 	/**
 	 * Initialize a deque with one element.
+	 *
+	 * @param e - The initial item to be added to the deque.
 	 */
 	public ArrayDeque(E e) {
 		this.data = new DynamicCircularArray<E>();
@@ -31,7 +48,8 @@ public class ArrayDeque<E> implements Deque<E> {
 
 	public E first() {
 		if (this.data.size() == 0) {
-			throw new IllegalStateException("Deque is empty");
+			throw new EmptyDequeException("Deque is empty: the front of the"
+					+ "deque cannot be accessed when the deque is empty");
 		}
 
 		return this.data.getFirst();
@@ -39,7 +57,8 @@ public class ArrayDeque<E> implements Deque<E> {
 
 	public E last() {
 		if (this.data.size() == 0) {
-			throw new IllegalStateException("Deque is empty");
+			throw new EmptyDequeException("Deque is empty: the back of the"
+					+ "deque cannot be accessed when the deque is empty");
 		}
 
 		return this.data.getLast();
@@ -55,7 +74,8 @@ public class ArrayDeque<E> implements Deque<E> {
 
 	public E removeFirst() {
 		if (this.data.size() == 0) {
-			throw new IllegalStateException("Deque is empty");
+			throw new EmptyDequeException("Deque is empty: cannot remove the"
+					+ "first item of the deque when the deque is empty");
 		}
 
 		E first = this.data.getFirst();
@@ -67,7 +87,8 @@ public class ArrayDeque<E> implements Deque<E> {
 
 	public E removeLast() {
 		if (this.data.size() == 0) {
-			throw new IllegalStateException("Deque is empty");
+			throw new EmptyDequeException("Deque is empty: cannot remove the"
+					+ "last item of the deque when the deque is empty");
 		}
 
 		E last = this.data.getLast();
